@@ -1,14 +1,12 @@
 import { createStore } from 'vuex'
+import login from './modules/login'
+import getters from './getters'
+import permission from './modules/permission'
 
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+  getters,
   modules: {
+    login,
+    permission
   }
 })
