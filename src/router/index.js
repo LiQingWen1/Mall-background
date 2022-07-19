@@ -8,17 +8,26 @@ const routes = [
     component: () => import('../views/login')
   },
   {
-    path: '/',
+    path: '/layout',
     name: 'layout',
     component: layout,
-    redirect: '/index',
+    redirect: '/',
     children: [
       {
-        path: '/index',
+        path: '/',
         name: 'index',
         component: () => import('../views/index')
       }
     ]
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: () => import('../views/404')
+  },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/404'
   }
 ]
 

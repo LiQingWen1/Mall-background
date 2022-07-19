@@ -1,23 +1,29 @@
-/**
- * 过滤出合适的路由数组
- * @param {*} menus
- */
-export default function filtersMenus(menus) {
-  // console.log(menus)
-  console.log(generateMenu(menus))
+export default function filterRoutes(params) {
+  // console.log(params)
+  const newRoutes = []
+  params.forEach((item) => {
+    item.child.forEach((v) => {
+      const routes = menuRoutes(v)
+      newRoutes.push(routes)
+    })
+  })
+  return newRoutes
 }
 
 /**
- * 去除没用的children
+ * 把所有菜单数据过滤成路由数据
  */
-const generateMenu = (menu) => {
-  for (let i = 0; i < menu.length; i++) {
-    if (menu[i].child && menu[i].child.length <= 0) {
-      delete menu[i].children
-    }
-    if (menu[i].child && menu[i].child.length > 0) {
-      generateMenu(menu[i].child)
+function menuRoutes(v) {
+  if (!v) return null
+  const route = {
+    path: v.frontpath,
+    name: v.icon,
+    meta: {
+      title: v.name,
+      icon: v.icon,
+      desc: v.desc
     }
   }
-  return menu
+  route.component = () => import(`../views/${v.desc}`)
+  return route
 }
