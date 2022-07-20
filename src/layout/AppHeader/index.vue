@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { logOut } from '../../api/login'
@@ -122,7 +122,8 @@ function handleLoginOut() {
   })
     .then(async () => {
       const res = await logOut()
-      store.commit('login/SET_TOKEN')
+      store.commit('login/SET_TOKEN', '')
+      store.dispatch('tags/handleCloseAll')
       router.push('/login')
       ElMessage({
         type: 'success',
@@ -148,15 +149,15 @@ function handleRefresh() {
 }
 
 // 全屏
-// let fullscreen = ref(false)
-// function allShow() {
-//   screenfull.toggle()
-//   fullscreen.value = !fullscreen.value
-// }
+const fullscreen = ref(false)
+function allShow() {
+  screenfull.toggle()
+  fullscreen.value = !fullscreen.value
+}
 // 监听是否全屏
 screenfull.on('change', () => {
   // console.log('当前是否是全屏', screenfull.isFullscreen)
-  // fullscreen.value = screenfull.isFullscreen
+  fullscreen.value = screenfull.isFullscreen
 })
 </script>
 

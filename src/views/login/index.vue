@@ -43,6 +43,7 @@
                   border-radius: 25px;
                   color: white;
                 "
+                :loading="showLoding"
                 @click="handleLoginSubmit"
                 >登录
               </el-button>
@@ -68,7 +69,7 @@ const loginForm = reactive({
   password: 'admin'
 })
 
-// let showLoding = ref(false)
+const showLoding = ref(false)
 
 const LoginForm = ref('')
 
@@ -94,7 +95,7 @@ function handleLoginSubmit() {
   LoginForm.value.validate(async (valid) => {
     // console.log(valid)
     if (valid) {
-      // showLoding.value = true
+      showLoding.value = true
       try {
         const res = await store.dispatch('login/handleLogin', loginForm)
         if (!res) return
@@ -106,6 +107,8 @@ function handleLoginSubmit() {
         })
       } catch (e) {
         console.log(e)
+      } finally {
+        showLoding.value = false
       }
     }
   })
