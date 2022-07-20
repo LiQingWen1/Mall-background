@@ -149,7 +149,7 @@ function handleRefresh() {
 }
 
 // 全屏
-const fullscreen = ref(false)
+let fullscreen = ref(false)
 function allShow() {
   screenfull.toggle()
   fullscreen.value = !fullscreen.value

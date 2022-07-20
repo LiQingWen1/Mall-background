@@ -1,26 +1,26 @@
 <template>
   <div class="box">
     <div
-      class="tags"
       :style="{ width: !$store.getters.isCollapse ? '1230px' : '1420px' }"
+      class="tags"
     >
       <el-tabs
-        type="card"
         v-model="$route.path"
+        type="card"
         @tab-remove="removeTab"
         @tab-click="activeTabs"
       >
         <el-tab-pane
           v-for="item in tagList"
-          :closable="item.path === '/' ? false : true"
           :key="item.path"
+          :closable="item.path === '/' ? false : true"
           :label="item.title"
           :name="item.path"
         >
         </el-tab-pane>
       </el-tabs>
 
-      <el-dropdown @command="handleCommand">
+      <el-dropdown @command="handleCommand" trigger="hover">
         <span class="el-dropdown-link">
           <el-icon class="down">
             <arrow-down />
@@ -48,7 +48,7 @@ const route = useRoute()
 
 // 监听路由
 onBeforeRouteUpdate((to) => {
-  const route = {
+  let route = {
     path: to.path,
     title: to.meta.title
   }
@@ -62,11 +62,13 @@ const tagList = computed(() => {
 
 // 选中时事件
 function activeTabs(val) {
+  // console.log(val)
   router.push(val.props.name)
 }
 
 // 删除单个tag
 function removeTab(path) {
+  // console.log(path)
   store.dispatch('tags/delTag', path)
 }
 
@@ -74,42 +76,53 @@ function handleCommand(val) {
   if (val === 'other') handleCloseOther()
   if (val === 'all') handleCloseAll()
 }
+
 // 关闭其他
 function handleCloseOther() {
+  // alert('关闭其他')
   store.dispatch('tags/handleCloseOther', route.path)
 }
+
 // 关闭所有
 function handleCloseAll() {
+  // alert('关闭所有')
   store.dispatch('tags/handleCloseAll')
 }
 </script>
 
 <style lang="scss" scoped>
-.box{
+.box {
   width: 100%;
   background: #f3f4f6;
   height: 55px;
   position: fixed;
+  z-index: 1000;
 }
+
 .tags {
   display: flex;
   justify-content: space-between;
   position: fixed;
 }
+
 .el-tabs--card {
   width: calc(100% - 35px);
 }
+
 ::v-deep .el-tabs__item {
   background: #fff;
   margin: 0 4px;
   border-radius: 5px;
 }
+
 ::v-deep .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
 }
+
 ::v-deep .el-tabs--card > .el-tabs__header {
   border-bottom: none;
 }
+
 .down {
   background: #fff;
   padding: 10px 10px;
